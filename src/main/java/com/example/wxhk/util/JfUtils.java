@@ -188,7 +188,7 @@ public class JfUtils {
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class, maps);
         JsonObject res = new JsonObject(response.getBody());
         System.out.println(res.toString());
-        int code= res.getInteger("code");
+        int code= Integer.valueOf(res.getString("code"));
         String rs = null;
         if (code == 105){
             Pattern compile = Pattern.compile("\\[(.+)\\]");

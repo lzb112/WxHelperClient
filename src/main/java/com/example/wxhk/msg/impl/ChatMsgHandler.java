@@ -36,6 +36,17 @@ public class ChatMsgHandler implements IMsgHandler {
 //            String roomName = HttpSendUtil.GetContactByWxid(chatMsg.getFromUser()).getString("nickname");
             HttpSendUtil.发送文本("48139976383@chatroom" ,chatmsg);
         }
+
+        if(chatMsg.getFromUser().equals("weijun_126516105") || chatMsg.getFromUser().equals("lzblove")){
+//            String chatUser = msg.substring(0,msg.indexOf(":\n"));
+            String chatmsg = msg;
+            if(chatmsg.indexOf("jd.com")!=-1){
+                chatmsg = JfUtils.changeUrl(chatmsg);
+            }
+//            String chatUserName = HttpSendUtil.GetContactByWxid(chatUser).getString("nickname");
+//            String roomName = HttpSendUtil.GetContactByWxid(chatMsg.getFromUser()).getString("nickname");
+            HttpSendUtil.发送文本("44548320951@chatroom" ,chatmsg);
+        }
         return null;
     }
 }
