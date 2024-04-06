@@ -63,7 +63,9 @@ public class HttpSendUtil {
         return HttpSyncUtil.exec(HttpAsyncUtil.Type.DBINFO, new JsonObject());
     }
 
-
+    public static JsonObject ForwardMsg(Long msgId, String wxid) {
+        return HttpSyncUtil.exec(HttpAsyncUtil.Type.转发消息, JsonObject.mapFrom(new SendMsg().setMsgId(msgId).setWxid(wxid)));
+    }
 
     public static JsonObject execSql(Long handle, String sql) {
         return HttpSyncUtil.exec(HttpAsyncUtil.Type.EXECSQL, JsonObject.mapFrom(new SendMsg().setDbHandle(handle).setSql(sql)));

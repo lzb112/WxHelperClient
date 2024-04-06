@@ -6,6 +6,7 @@ import com.example.wxhk.model.dto.PayoutInformation;
 import com.example.wxhk.msg.impl.ChatMsgHandler;
 import com.example.wxhk.msg.impl.ImageMsgHandler;
 import com.example.wxhk.msg.impl.InComingMsgHandler;
+import com.example.wxhk.msg.impl.VideoMsgHandler;
 import com.example.wxhk.server.WxSmgServer;
 import com.example.wxhk.tcp.vertx.InitWeChat;
 import jakarta.annotation.PostConstruct;
@@ -56,6 +57,7 @@ public class WxMsgHandle {
         add(new ChatMsgHandler(), WxMsgType.私聊信息);
         add(new ImageMsgHandler(), WxMsgType.图片);
         add(new InComingMsgHandler(), WxMsgType.入群);
+        add(new VideoMsgHandler(), WxMsgType.视频);
 //        add(chatMsg -> {
 //            if (FILEHELPER.equals(chatMsg.getFromUser())) {
 //                wxSmgServer.文件助手(chatMsg);
