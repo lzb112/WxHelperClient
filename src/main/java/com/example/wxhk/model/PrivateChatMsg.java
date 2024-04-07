@@ -24,6 +24,10 @@ public class PrivateChatMsg implements Serializable {
 
     private String content;
     /**
+     * 显示值
+     */
+    private String displayFullContent;
+    /**
      * 当是群聊的时候 为群id,否则为微信id
      */
     private String fromGroup;

@@ -55,7 +55,7 @@ public class WxMsgHandle {
         add(new ImageMsgHandler(), WxMsgType.图片);
         add(new InComingMsgHandler(), WxMsgType.入群);
         add(new VideoMsgHandler(), WxMsgType.视频);
-        add(new MsgRecordHandler(), WxMsgType.聊天记录);
+        add(new MsgRecordHandler(), WxMsgType.转账和收款和聊天记录框);
 //        add(chatMsg -> {
 //            if (FILEHELPER.equals(chatMsg.getFromUser())) {
 //                wxSmgServer.文件助手(chatMsg);

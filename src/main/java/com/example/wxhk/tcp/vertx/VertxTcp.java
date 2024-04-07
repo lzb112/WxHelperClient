@@ -61,7 +61,7 @@ public class VertxTcp extends AbstractVerticle implements CommandLineRunner {
                         JsonObject entries = event.objectValue();
 
                         if(Objects.equals(entries.getInteger("type"), WxMsgType.扫码触发.getType()) ||
-                                Objects.equals(entries.getInteger("type"), WxMsgType.转账和收款.getType())){
+                                Objects.equals(entries.getInteger("type"), WxMsgType.转账和收款和聊天记录框.getType())){
                             LINKED_BLOCKING_QUEUE_MON.add(entries);
                         }else{
                             LINKED_BLOCKING_QUEUE.add(entries);
