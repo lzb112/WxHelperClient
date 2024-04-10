@@ -65,7 +65,7 @@ public class VideoMsgHandler implements IMsgHandler {
                                 Thread.sleep(500);
                                 pjson = HttpSendUtil.execSql(dbhandle, "select BytesExtra from MSG where MsgSvrID=" + chatMsg.getMsgId());
                             }
-                        }while(!videoPath.endsWith(".mp4") && i<10);
+                        }while(!videoPath.endsWith(".mp4") && i<100);
                         break;
                     }
                 }
