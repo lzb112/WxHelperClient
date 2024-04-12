@@ -31,7 +31,7 @@ public class ChatMsgHandler implements IMsgHandler {
             String chatmsg = msg.substring(msg.indexOf(":\n")+2);
             if(chatmsg.indexOf("jd.com")!=-1){
                 chatmsg = JfUtils.changeUrl(chatmsg);
-                if(chatmsg.indexOf("付款") != -1) {
+                if(chatmsg.indexOf("盾") != -1) {
                     HttpSendUtil.发送at文本("48139976383@chatroom", "notify@all", chatmsg);
                     return null;
                 }
@@ -46,7 +46,7 @@ public class ChatMsgHandler implements IMsgHandler {
             String chatmsg = msg;
             if(chatmsg.indexOf("jd.com")!=-1){
                 chatmsg = JfUtils.changeUrl(chatmsg);
-                if(chatmsg.indexOf("付款") != -1) {
+                if(chatmsg.indexOf("盾") != -1) {
                     HttpSendUtil.发送at文本("44548320951@chatroom", "notify@all", chatmsg);
                     return null;
                 }
