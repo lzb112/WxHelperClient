@@ -88,10 +88,6 @@ public class JfUtils {
                 if (stringBuffer2.endsWith("&") && stringBuffer2.length() > 1) {
                     stringBuffer2 = stringBuffer2.substring(0, stringBuffer2.length() - 1);
                 }
-//                System.out.println(stringBuffer2.toString());
-
-//                String s="1b41f155dc6a3a99&jf_app&{\"clientPageId\":\"jingfen_app\",\"funName\":\"getSuperClickUrl\",\"param\":{\"materialInfo\":\"不懂的看这里❗\\n需要在京东app复制以下文案，发客服打开链接下单\\nhttps://coupon.m.jd.com/coupons/show.action?key=c9m6c9sbodad4c08a5cb3d1184a1bf73&roleId=144688696&to=https://mall.jd.com/index-1000013402.html\\n领这个优惠券❗\\n\\n领一张200-20神券 https://u.jd.com/RzBBBHJ\\n\\nhttps://u.jd.com/RiEcW4H\\n加入购物车2件\\n\\nhttps://u.jd.com/RqRnFcM\\n页面领25券\\n加入购物车2件\\n\\n2件高端安慕希\\n2安慕希12盒装\\n2+2=4一起下单\\n付款147返款151\\n\\n下单不要付款，\\n返回等几分钟有送满减支付\\n\\n暮色京东深圳地址\\n（盾的火爆的飞区下+那个权益0.01元一起下单破盾）\"},\"pin\":\"u_4f13b0f0e92bf\",\"unionId\":\"2019612853\"}&20220509&android&3.13.14&Xiaomi&Mi10&ConvertSuperLink&13&71737558&2206*1080&1711213069859&00000000-0000-0000-ffff-ffffc504c6a3";
-
                 String HMACSHA256 = HMACSHA256(stringBuffer2.toString().getBytes(), key.getBytes());
                 return HMACSHA256;
             }
@@ -150,9 +146,9 @@ public class JfUtils {
                 "    }");
         body.getJsonObject("param").put("materialInfo", ctx);
 //        System.out.println("body："+body.encodePrettily());
-        System.out.println(signUrl);
-        System.out.println(body);
-        System.out.println(key);
+//        System.out.println(signUrl);
+//        System.out.println(body);
+//        System.out.println(key);
 
         String signature = signature(signUrl, body.toString(), key);
 
@@ -169,8 +165,9 @@ public class JfUtils {
                 "    }");
         param.put("ts", Long.valueOf(timestamp));
         param.getJsonObject("cipher").put("body", b64encode(body.toString().getBytes("utf-8")));
-        System.out.println(param);
-        System.out.println(signature);
+//        System.out.println(param);
+//        System.out.println(signature);
+
         String url = "https://api.m.jd.com/api?functionId=ConvertSuperLink&t="+timestamp+"&sign="+signature+"&ep={ep}&ef=1";
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         HttpHeaders heads=new HttpHeaders();
@@ -179,35 +176,59 @@ public class JfUtils {
         heads.add("J-E-C", "%7B%22hdid%22%3A%22JM9F1ywUPwflvMIpYPok0tt5k9kW4ArJEU3lfLhxBqw%3D%22%2C%22ts%22%3A1711257116687%2C%22ridx%22%3A-1%2C%22cipher%22%3A%7B%22wskey%22%3A%22GUPAbP91YXPLHUDpUxLyWV9ACzdfX1ZOH2HFDWmnJwDUCWvRJWZIGzSnJvHRdXvCGvqzDOrHCJq3Cu9FDs1RCOSnIuVZWOdPVOfnbtC5DXS1CxfpJNLFU0d0J0vUCXUn%22%2C%22pin%22%3A%22dV80ZtOzYtLwCQU5CwTw%22%2C%22whwswswws%22%3A%22IuGmCJSnEWPuYVTQDOO5btO4ctKnDzOnCtU3CJO2DtOmCNZVVtH1WPHYYWHSEVDjZQrvHw51CwnkHxTTJwZsb3VDdzdNVWPmDwjeItvsIxdWYWDBBW1nJNVEcPV1I1PGGXT4C1rYX0VFVXqzb2frZ2VmDXLTZ2rUZzLeDtC0D2d%2BGuPmWQVPEQ5YYwV0Gy1mUxVIC21BCtHNVXT1WOTzdxv1ZwZ1ZUPzIO85oOenUQDia0jZG0r3Uwu3aW52X2P0UxruWvLvI0jUbq%3D%3D%22%2C%22jxjpin%22%3A%22dV80ZtOzYtLwCQU5CwTw%22%7D%2C%22ciphertype%22%3A5%2C%22version%22%3A%221.2.0%22%2C%22appname%22%3A%22com.jd.jxj%22%7D");
         params.add("body", param.toString());
         params.add("bef", "1");
-        System.out.println(url);
-        System.out.println(params.toString());
+//        System.out.println(url);
+//        System.out.println(params.toString());
         Map<String, Object> maps = new HashMap<String, Object>();
         maps.put("ep", ep.toString());
         HttpEntity<MultiValueMap> request  = new HttpEntity<>(params,heads);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class, maps);
         JsonObject res = new JsonObject(response.getBody());
-        System.out.println(res.toString());
+//        System.out.println(res.toString());
         int code= Integer.valueOf(res.getString("code"));
         String rs = null;
         if (code == 105){
             Pattern compile = Pattern.compile("\\[(.+)\\]");
             Matcher message = compile.matcher(res.getString("message"));
             message.find();
-            String uuid = UUID.randomUUID().toString();
+            String uuid = UtilTools.RandomString(16);
             ctx = ctx.replaceAll(Pattern.quote(message.group(1)), uuid);
+//            System.out.println("前=======================\n"+ctx);
             rs = changeUrl(ctx);
+//            System.out.println("中=======================\n"+rs);
             rs = rs.replaceAll(uuid, message.group(1));
+//            System.out.println("后=======================\n");
         } else if (code != 0) {
 
         } else{
             rs = res.getJsonObject("data").getString("originalContext");
         }
-        System.out.println(rs);
+//        System.out.println(rs);
         return rs;
     }
 
     public static void main(String[] args) {
-        changeUrl("不懂的看这里❗\n需要在京东app复制以下文案，发客服打开链接下单\nhttps://coupon.m.jd.com/coupons/show.action?key=c9m6c9sbodad4c08a5cb3d1184a1bf73&roleId=144688696&to=https://mall.jd.com/index-1000013402.html\n领这个优惠券❗\n\n领一张200-20神券 https://u.jd.com/RzBBBHJ\n\nhttps://u.jd.com/RiEcW4H\n加入购物车2件\n\nhttps://u.jd.com/RqRnFcM\n页面领25券\n加入购物车2件\n\n2件高端安慕希\n2安慕希12盒装\n2+2=4一起下单\n付款147返款151\n\n下单不要付款，\n返回等几分钟有送满减支付\n\n暮色京东深圳地址\n（盾的火爆的飞区下+那个权益0.01元一起下单破盾）");
+        String rs = changeUrl("以前老会员Plus换全品券，\n" +
+                "需要在京东app复制以下链接发客服打开\n" +
+                "换领200-10优惠券\n" +
+                " https://u.jd.com/PQ5KAsc\n" +
+                "以前开的老会员有❗\n" +
+                "新开\uD83C\uDE1A\n" +
+                "\n" +
+                "\n" +
+                "不懂的看这，\n" +
+                "需在京东app复制以下文案，随便发个客服打开链接加购车/领券（微信直点链接即可）\n" +
+                "\n" +
+                "https://u.jd.com/Xq4hs7q\n" +
+                "加入购暮车20件\n" +
+                "付款464\n" +
+                "返款472\n" +
+                "（银行卡/白条有送满减）\n" +
+                "下单尽快付款怕被取消订单\n" +
+                "\n" +
+                "暮色京东深圳地址\n" +
+                "（火爆/被取消的，飞区下➕那个权益0.01元一起下）");
+
+        System.out.println(rs);
     }
 }
